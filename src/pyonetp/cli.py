@@ -2,7 +2,7 @@ import os
 import sys
 import click
 
-from pyonetp.operations import encrypt as encrypt_data, decrypt as decrypt_data, generate_key
+from pyonetp.operations import encrypt as encrypt_data, decrypt as decrypt_data
 
 @click.group()
 def cli() -> None:
@@ -23,12 +23,12 @@ def encrypt(inputs: tuple[str], out: str, genkey: tuple[str]) -> None:
 
     for idx, i in enumerate(inputs[1:]):
         if open(i).seek(0, os.SEEK_END) < l:
-            click.echo(f'Non-primary input "{i}" is shorter than primary input "{inputs[0]}", refusing to continue')
+            click.echo(f'Non-primary input "{i}" is shorter than primary input "{inputs[0]}", refusing to continue.')
             sys.exit(1)
 
     for kf in genkey:
         with open(kf, 'wb') as f:
-            f.write(generate_key(open(inputs[0]).seek(0, os.SEEK_END)))
+            f.write(os.urandom(l))
 
     if out:
         f = (open(out, 'wb') if out else sys.stdout)
@@ -45,13 +45,14 @@ cli.add_command(encrypt)
 def decrypt(inputs: tuple[str], out: str) -> None:
     """
     Decrypt files.
+
     Accepts an arbitrary number of files as input. The first file is generally the file to be decrypted, and the remaining files are the encryption keys, though this is not required. The non-primary files must should be at least as long as the primary file.
     """
     l = open(inputs[0]).seek(0, os.SEEK_END)
 
     for idx, i in enumerate(inputs[1:]):
         if open(i).seek(0, os.SEEK_END) < l:
-            click.echo(f'Non-primary input "{i}" is shorter than primary input "{inputs[0]}", refusing to continue')
+            click.echo(f'Non-primary input "{i}" is shorter than primary input "{inputs[0]}", refusing to continue.')
             sys.exit(1)
 
     if out:

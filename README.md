@@ -9,11 +9,10 @@ $ echo "Hello world 😀!" > original
 $ dd if=/dev/urandom of=key1 bs=1 count=20 status=none
 $ dd if=/dev/urandom of=key2 bs=1 count=20 status=none
 $ pyonetp encrypt original key1 key2 --out encrypted
-$ xxd encrypted 
-00000000: 9048 6f63 8be0 008f 3683 b37f 48b8 9e93  .Hoc....6...H...
-00000010: cd3e                                     .>
-$ pyonetp decrypt encrypted key1 key2 --out decrypted
-$ cat decrypted 
+$ xxd encrypted
+00000000: 8e45 ad9b 5a14 cad7 8400 bd9c f7d7 27ed  .E..Z.........'.
+00000010: d4fc                                     ..
+$ pyonetp decrypt encrypted key1 key2
 Hello world 😀!
 $ 
 ```

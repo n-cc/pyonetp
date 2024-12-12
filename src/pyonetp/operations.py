@@ -1,8 +1,3 @@
-import os
-
-def generate_key(l):
-    return os.urandom(l)
-
 def encrypt(*args):
     def add(*args):
         return sum(args) % 256
