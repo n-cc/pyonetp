@@ -36,7 +36,8 @@ def encrypt(inputs: tuple[str], out: str, genkey: tuple[str]) -> None:
     for i in inputs[1:]:  # type: str
         if open(i).seek(0, os.SEEK_END) < p_len:
             click.echo(
-                f"Non-primary input {i} is shorter than primary input {inputs[0]}, refusing to continue."
+                f"Non-primary input {i} is shorter than primary input {inputs[0]}, refusing to continue.",
+                err=True,
             )
             sys.exit(1)
 
@@ -69,7 +70,8 @@ def decrypt(inputs: tuple[str], out: str) -> None:
     for i in inputs[1:]:  # type: str
         if open(i).seek(0, os.SEEK_END) < p_len:
             click.echo(
-                f"Non-primary input {i} is shorter than primary input {inputs[0]}, refusing to continue."
+                f"Non-primary input {i} is shorter than primary input {inputs[0]}, refusing to continue.",
+                err=True,
             )
             sys.exit(1)
 
