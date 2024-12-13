@@ -192,9 +192,31 @@ def test_cli_encrypt_truncated(tmpdir):
     )
     assert result.exit_code == 1
     assert (
-        "Non-primary input tests/samples/key3 is shorter than primary input tests/samples/input1, refusing to continue."
+        "Input #2 is shorter than the primary input, refusing to continue."
         in result.output
     )
+
+
+def test_cli_encrypt_truncated_override(tmpdir):
+    runner = CliRunner()
+    result = runner.invoke(
+        cli,
+        [
+            "encrypt",
+            "tests/samples/input1",
+            "tests/samples/key3",
+            "--allow-input-wrapping",
+            "--out",
+            f"{tmpdir}/test_cli_encrypt_truncated_override",
+        ],
+    )
+    assert result.exit_code == 0
+    assert result.output == ""
+
+    with open(f"{tmpdir}/test_cli_encrypt_truncated_override", "rb") as out, open(
+        "tests/samples/i1k3", "rb"
+    ) as expected:
+        assert out.read() == expected.read()
 
 
 def test_cli_decrypt_truncated(tmpdir):
@@ -211,6 +233,62 @@ def test_cli_decrypt_truncated(tmpdir):
     )
     assert result.exit_code == 1
     assert (
-        "Non-primary input tests/samples/key3 is shorter than primary input tests/samples/i1k1, refusing to continue."
+        "Input #2 is shorter than the primary input, refusing to continue."
         in result.output
     )
+
+
+def test_cli_decrypt_truncated_override(tmpdir):
+    runner = CliRunner()
+    result = runner.invoke(
+        cli,
+        [
+            "decrypt",
+            "tests/samples/i1k3",
+            "tests/samples/key3",
+            "--allow-input-wrapping",
+            "--out",
+            f"{tmpdir}/test_cli_decrypt_truncated_override",
+        ],
+    )
+    assert result.exit_code == 0
+    assert result.output == ""
+
+    with open(f"{tmpdir}/test_cli_decrypt_truncated_override", "rb") as out, open(
+        "tests/samples/input1", "rb"
+    ) as expected:
+        assert out.read() == expected.read()
+
+
+def test_cli_encrypt_empty(tmpdir):
+    runner = CliRunner()
+    result = runner.invoke(
+        cli,
+        [
+            "encrypt",
+            "tests/samples/input1",
+            "tests/samples/key4",
+            "--allow-input-wrapping",
+            "--out",
+            f"{tmpdir}/test_cli_encrypt_empty",
+        ],
+    )
+    assert result.exit_code == 1
+    assert "Input #2 is empty, refusing to continue."
+
+
+def test_cli_decrypt_empty(tmpdir):
+    runner = CliRunner()
+    result = runner.invoke(
+        cli,
+        [
+            "decrypt",
+            "tests/samples/i1k3",
+            "tests/samples/key4",
+            "--allow-input-wrapping",
+            "--out",
+            f"{tmpdir}/test_cli_decrypt_empty",
+        ],
+    )
+    assert result.exit_code == 1
+    assert "Input #2 is empty, refusing to continue."
