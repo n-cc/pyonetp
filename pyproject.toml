@@ -9,7 +9,7 @@ homepage = "https://github.com/n-cc/pyonetp"
 repository = "https://github.com/n-cc/pyonetp"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.12"
 
 [tool.poetry.dev-dependencies]
 black = ">=21.10b0"
@@ -26,6 +26,7 @@ pep8-naming = ">=0.12.1"
 pre-commit = ">=2.16.0"
 pre-commit-hooks = ">=4.1.0"
 pytest = ">=6.2.5"
+pytest-cov = "^6.0.0"
 pyupgrade = ">=2.29.1"
 safety = ">=1.10.3"
 typeguard = ">=2.13.3"

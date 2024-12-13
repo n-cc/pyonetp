@@ -1,5 +1,7 @@
 """Tests for cli functions."""
 
+# noqa: D103
+
 from click.testing import CliRunner
 
 from pyonetp.cli import cli
@@ -145,6 +147,13 @@ def test_cli_encrypt_to_stdout(tmpdir):
     result = runner.invoke(
         cli, ["encrypt", "tests/samples/input1", "tests/samples/key1"]
     )
+    assert result.exit_code == 0
+    assert result.output != ""
+
+
+def test_cli_decrypt_to_stdout(tmpdir):
+    runner = CliRunner()
+    result = runner.invoke(cli, ["decrypt", "tests/samples/i1k1", "tests/samples/key1"])
     assert result.exit_code == 0
     assert result.output != ""
 
