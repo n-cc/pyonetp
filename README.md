@@ -14,7 +14,7 @@ $ xxd encrypted
 00000010: d4fc                                     ..
 $ pyonetp decrypt encrypted key1 key2
 Hello world 😀!
-$ 
+$
 ```
 
 ## Known Limitations
