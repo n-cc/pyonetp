@@ -20,7 +20,7 @@ def _parse_keys(f: typing.Callable[..., bytes]) -> typing.Callable[..., bytes]:
 
             if a_len < pk_len:
                 if allow_input_wrapping:
-                    a = a * (math.floor(pk_len / a_len) + pk_len % a_len)
+                    a = a * math.ceil(pk_len / a_len)
                 else:
                     raise KeyLengthError(idx + 1)
 
